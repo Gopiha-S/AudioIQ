@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AudioIQ — AI Audio Intelligence, Diarization & Speech-to-Text</title>
+  <meta name="description" content="Professional multi-speaker audio intelligence platform: noise suppression, speaker diarization, speech-to-text transcription, role mapping, and clean audio export.">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236366f1'><path d='M12 2a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z'/><path d='M19 10v3a7 7 0 0 1-14 0v-3H3v3a9 9 0 0 0 8 8.94V22h2v-0.06A9 9 0 0 0 21 13v-3h-2z'/></svg>">
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="navbar">
+    <a href="/" class="logo-container">
+      <div class="logo-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v3a7 7 0 0 1-14 0v-3H3v3a9 9 0 0 0 8 8.94V22h2v-0.06A9 9 0 0 0 21 13v-3h-2z"/>
+        </svg>
+      </div>
+      <div>
+        <span class="logo-title">Audio<span class="gradient-text">IQ</span></span>
+        <span class="logo-tag">Pro</span>
+      </div>
+    </a>
+
+    <div class="nav-links">
+      <div class="status-badge">
+        <div class="status-dot"></div>
+        <span>Pipeline Engine Active</span>
+      </div>
+      <a href="/docs" target="_blank" class="nav-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+        <span>API Docs</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="app-container">
+
+    <!-- Upload & Hero Section -->
+    <section class="hero-upload-card" id="heroSection">
+      <div class="hero-header">
+        <h1 class="hero-title">Speech Intelligence & <span class="gradient-text">Diarization</span></h1>
+        <p class="hero-subtitle">
+          Upload any audio recording to suppress noise, isolate distinct speakers, generate high-accuracy transcripts, and download crystal-clear enhanced audio.
+        </p>
+      </div>
+
+      <!-- Drag & Drop Zone -->
+      <div class="dropzone" id="dropzone">
+        <div class="dropzone-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+        </div>
+        <div class="dropzone-title">Drag & drop your audio file here</div>
+        <div class="dropzone-subtitle">or click to browse from your computer</div>
+        <button type="button" class="btn-upload">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          Choose Audio File
+        </button>
+        <input type="file" id="audioFileInput" class="file-input" accept="audio/*,.wav,.mp3,.m4a,.flac,.ogg,.aac">
+
+        <div class="upload-formats-bar">
+          <span class="format-pill">WAV</span>
+          <span class="format-pill">MP3</span>
+          <span class="format-pill">M4A</span>
+          <span class="format-pill">FLAC</span>
+          <span class="format-pill">OGG</span>
+          <span class="format-pill">Max 200MB</span>
+        </div>
+      </div>
+
+      <!-- Advanced Diarization JSON Toggle -->
+      <div style="margin-top: 1.25rem; font-size: 0.85rem; color: var(--text-muted); text-align: center;">
+        <label style="cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem;">
+          <input type="checkbox" id="useDiarizationJson" style="accent-color: var(--primary);">
+          <span>Supply optional pre-computed diarization JSON (Self-correcting fallback)</span>
+        </label>
+        <div id="jsonUploadRow" style="display: none; margin-top: 0.75rem;">
+          <input type="file" id="diarizationFileInput" class="nav-btn" accept=".json" style="margin: 0 auto; display: block;">
+        </div>
+      </div>
+
+      <!-- Quick Demo Presets -->
+      <div class="presets-section">
+        <div class="presets-label">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Try with Demo Audio:</span>
+        </div>
+        <div class="presets-list">
+          <button type="button" class="preset-chip" data-preset="support_call">
+            <span>🎧 Customer Support Call (2 Speakers)</span>
+          </button>
+          <button type="button" class="preset-chip" data-preset="noisy_interview">
+            <span>🎙️ Noisy Interview (Speech + Noise)</span>
+          </button>
+          <button type="button" class="preset-chip" data-preset="team_meeting">
+            <span>👥 Team Discussion (Multi-turn)</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live 9-Stage Processing Hub -->
+    <section class="processing-card" id="processingSection" style="display: none;">
+      <div class="processing-header">
+        <div class="processing-title-group">
+          <div class="spinner"></div>
+          <div>
+            <h2 style="font-size: 1.3rem;">Processing Audio Intelligence Pipeline</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted);" id="processingStatusText">Initializing 9-stage analysis...</p>
+          </div>
+        </div>
+        <div class="progress-pct-badge" id="progressPct">0%</div>
+      </div>
+
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="progressBarFill"></div>
+      </div>
+
+      <!-- 9-Stage Visual Grid -->
+      <div class="stepper-grid" id="stepperGrid">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- Main Analysis Dashboard (Revealed on Completion) -->
+    <section class="dashboard-view" id="dashboardSection" style="display: none;">
+
+      <!-- Top Action Bar -->
+      <div class="dashboard-actions">
+        <div class="job-meta-pill">
+          <span style="color: var(--secondary); font-weight: 700;">● COMPLETED</span>
+          <span class="mono" id="jobIdDisplay">Job: c51ca8d0...</span>
+          <span>·</span>
+          <span id="durationDisplay">Duration: 00:00</span>
+          <span>·</span>
+          <span id="sampleRateDisplay">16000 Hz · WAV</span>
+        </div>
+
+        <div class="export-group">
+          <button type="button" class="btn-action clean-audio-btn" id="downloadCleanWavBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Download Clean Audio</span>
+          </button>
+          <button type="button" class="btn-action primary" id="openExportBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+            <span>Export Transcript</span>
+          </button>
+          <button type="button" class="btn-action" id="newUploadBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>
+            <span>New Upload</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Audio Player Hub with A/B Toggle -->
+      <div class="audio-player-card">
+        <div class="player-top-bar">
+          <!-- A/B Audio Switcher -->
+          <div class="ab-switch-container">
+            <button type="button" class="ab-tab active clean" id="tabClean">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Cleaned Audio (Denoised)</span>
+            </button>
+            <button type="button" class="ab-tab" id="tabOriginal">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
+              <span>Original Audio (Raw)</span>
+            </button>
+          </div>
+
+          <div class="audio-stream-badge mono" id="activeStreamBadge">
+            CLEAN · 16kHz ENHANCED
+          </div>
+        </div>
+
+        <!-- Waveform Visualizer Canvas -->
+        <div class="waveform-box">
+          <canvas id="waveformCanvas" class="waveform-canvas"></canvas>
+          <div class="time-row">
+            <span id="currentTimeDisplay">00:00</span>
+            <span style="color: var(--text-dim);">Click waveform to seek</span>
+            <span id="totalTimeDisplay">00:00</span>
+          </div>
+        </div>
+
+        <!-- Player Controls -->
+        <div class="player-controls-row">
+          <div class="transport-btns">
+            <button type="button" class="btn-ctrl" id="rewindBtn" title="Rewind 5s (←)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/></svg>
+            </button>
+            <button type="button" class="btn-ctrl btn-play-pause" id="playPauseBtn" title="Play/Pause (Space)">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" id="playPauseIcon">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </button>
+            <button type="button" class="btn-ctrl" id="forwardBtn" title="Forward 5s (→)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
+            </button>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+            <div class="speed-select-group">
+              <span style="font-size: 0.8rem; color: var(--text-muted);">Speed:</span>
+              <select class="speed-select" id="speedSelect">
+                <option value="0.75">0.75x</option>
+                <option value="1" selected>1.0x</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+                <option value="2">2.0x</option>
+              </select>
+            </div>
+
+            <div class="volume-slider-group">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="1">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Audio Enhancement Metrics Strip -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+            <span>SNR Improvement</span>
+          </div>
+          <div class="metric-value metric-highlight" id="metricSnrImprovement">+14.2 dB</div>
+          <div class="metric-subtext">Signal-to-noise ratio boost</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <span>Noise Suppressed</span>
+          </div>
+          <div class="metric-value" id="metricNoiseRemoved">88.5%</div>
+          <div class="metric-subtext">Background noise eliminated</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+            <span>SNR Before → After</span>
+          </div>
+          <div class="metric-value mono" style="font-size: 1.35rem;" id="metricSnrBeforeAfter">12.4 dB → 26.6 dB</div>
+          <div class="metric-subtext">Cleaned spectral envelope</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Pipeline Speed</span>
+          </div>
+          <div class="metric-value" id="metricProcessTime">1.8s</div>
+          <div class="metric-subtext">Execution duration</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/></svg>
+            <span>Speech Ratio</span>
+          </div>
+          <div class="metric-value" id="metricSpeechRatio">92%</div>
+          <div class="metric-subtext">VAD active voice detected</div>
+        </div>
+      </div>
+
+      <!-- Two-Column Analysis Grid: Diarization (Left) & Speech-to-Text Transcript (Right) -->
+      <div class="analysis-columns">
+
+        <!-- Diarization & Speakers Hub -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <span>Speaker Diarization</span>
+            </div>
+            <div class="speaker-count-tag" id="speakerCountTag">2 Speakers</div>
+          </div>
+
+          <!-- Color-Coded Multi-Track Speaker Timeline -->
+          <div class="diarization-timeline-box">
+            <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-dim);">
+              <span>SPEAKER TIMELINE TRACK</span>
+              <span>Click segment to seek</span>
+            </div>
+            <div class="timeline-bar-wrapper">
+              <div id="diarizationTimelineBar"></div>
+              <div class="timeline-playhead-indicator" id="timelinePlayhead"></div>
+            </div>
+          </div>
+
+          <!-- Speaker Profile Cards -->
+          <div style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-top: 0.5rem;">
+            IDENTIFIED SPEAKERS & ROLES
+          </div>
+          <div class="speaker-cards-list" id="speakerCardsContainer">
+            <!-- Rendered by app.js -->
+          </div>
+        </div>
+
+        <!-- Speech-to-Text Transcript Hub -->
+        <div class="panel-card transcript-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span>Speech to Text Transcript</span>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-dim);">Auto-syncs with audio</div>
+          </div>
+
+          <!-- Search Bar -->
+          <div class="transcript-search-bar">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" class="search-input" id="transcriptSearchInput" placeholder="Search spoken words in transcript...">
+            <span class="mono" id="searchMatchCount" style="font-size: 0.75rem; color: var(--warning); display: none;"></span>
+          </div>
+
+          <!-- Turn-by-Turn Bubble List -->
+          <div class="transcript-scroll-area" id="transcriptList">
+            <!-- Rendered by app.js -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Spectrogram Comparison Section -->
+      <div class="spectrogram-card">
+        <div class="panel-header" style="border: none; padding: 0;">
+          <div class="panel-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            <span>Spectrogram Visual Comparison (Before & After)</span>
+          </div>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Frequency & Energy Analysis</span>
+        </div>
+
+        <div class="spectrogram-grid">
+          <div class="spectrogram-box">
+            <div class="spectrogram-header">
+              <span style="color: #f87171;">● Original Audio Spectrogram</span>
+              <span class="mono" style="font-size: 0.75rem; color: var(--text-dim);">Raw / Noisy</span>
+            </div>
+            <img id="spectrogramOriginal" class="spectrogram-img" alt="Original audio spectrogram">
+          </div>
+
+          <div class="spectrogram-box">
+            <div class="spectrogram-header">
+              <span style="color: #34d399;">● Cleaned Audio Spectrogram</span>
+              <span class="mono" style="font-size: 0.75rem; color: var(--text-dim);">Noise Gate Suppressed</span>
+            </div>
+            <img id="spectrogramCleaned" class="spectrogram-img" alt="Cleaned audio spectrogram">
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Export Modal -->
+  <div class="modal-overlay" id="exportModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 style="font-size: 1.25rem;">Export Analysis & Transcripts</h3>
+        <button type="button" class="modal-close-btn" id="closeExportBtn">✕</button>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted);">
+        Choose a file format to export the transcript, speaker labels, and metadata.
+      </p>
+
+      <div class="export-options-list">
+        <div class="export-option-card" data-format="txt">
+          <div>
+            <div style="font-weight: 600;">Plain Text Transcript (.txt)</div>
+            <div style="font-size: 0.75rem; color: var(--text-dim);">Formatted speaker turns and readable text</div>
+          </div>
+          <button class="btn-action">Download</button>
+        </div>
+
+        <div class="export-option-card" data-format="srt">
+          <div>
+            <div style="font-weight: 600;">SubRip Subtitles (.srt)</div>
+            <div style="font-size: 0.75rem; color: var(--text-dim);">Standard video & player subtitle format</div>
+          </div>
+          <button class="btn-action">Download</button>
+        </div>
+
+        <div class="export-option-card" data-format="vtt">
+          <div>
+            <div style="font-weight: 600;">WebVTT Subtitles (.vtt)</div>
+            <div style="font-size: 0.75rem; color: var(--text-dim);">Web standard with speaker voice tags</div>
+          </div>
+          <button class="btn-action">Download</button>
+        </div>
+
+        <div class="export-option-card" data-format="json">
+          <div>
+            <div style="font-weight: 600;">Full Pipeline Data (.json)</div>
+            <div style="font-size: 0.75rem; color: var(--text-dim);">Complete JSON schema with metrics & profiles</div>
+          </div>
+          <button class="btn-action">Download</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="/js/app.js"></script>
+</body>
+</html>
